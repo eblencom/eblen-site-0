@@ -1,26 +1,114 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-main: #fffdf9;
+  --text-main: #2e271f;
+  --text-soft: #807264;
+  --border-soft: #f1e5d8;
+  --accent: #df7d1f;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-background: var(--bg-main);
+  --color-foreground: var(--text-main);
+  --font-sans: var(--font-uncage-sans);
+  --font-mono: var(--font-uncage-sans);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  background: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-uncage-sans), "Segoe UI", sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.004em;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 20px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-uncage-display), var(--font-uncage-sans), sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.panel {
+  border: 1px solid var(--border-soft);
+  background: #fff;
+}
+
+.reveal {
+  opacity: 0;
+  animation: reveal-up 0.45s ease forwards;
+}
+
+.btn-primary {
+  border: 1px solid var(--accent);
+  border-radius: 9999px;
+  background: var(--accent);
+  color: #fff;
+  transition: opacity 0.26s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+}
+
+.btn-secondary {
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--text-main);
+  transition: border-color 0.26s ease, opacity 0.26s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #e4c2a1;
+}
+
+.btn-secondary:active {
+  opacity: 0.9;
+}
+
+.field {
+  border: 1px solid var(--border-soft);
+  background: #fffefb;
+  color: var(--text-main);
+  transition: border-color 0.26s ease, box-shadow 0.26s ease;
+}
+
+.field:focus {
+  border-color: #e4b284;
+  box-shadow: none;
+  outline: none;
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }
