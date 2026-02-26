@@ -4,6 +4,25 @@ import { revalidatePath } from "next/cache";
 // Supabase client for database access
 import { supabase } from "@/lib/supabaseClient";
 
+type Review = {
+  id: number;
+  name: string;
+  stars: number;
+  text: string;
+  created_at: string;
+};
+
+function pickRandomReviews(reviews: Review[], count: number): Review[] {
+  const shuffled = [...reviews];
+
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled.slice(0, count);
+}
+
 // Server action that handles review form submissions
 async function createReview(formData: FormData) {
   "use server"; // directive indicating this function runs on the server
@@ -18,7 +37,11 @@ async function createReview(formData: FormData) {
   if (!name || !text || !stars || Number.isNaN(stars) || stars < 1 || stars > 5) return;
 
   // insert into the reviews table and trigger revalidation of the home page
-  await supabase.from("reviews").insert({ name, stars, text });
+  const { error } = await supabase.from("reviews").insert({ name, stars, text });
+  if (error) {
+    console.error("Failed to create review:", error.message);
+    return;
+  }
   revalidatePath("/");
 }
 
@@ -31,6 +54,7 @@ export default async function Home() {
     supabase.from("products").select("id, image_url, name, weight_grams, composition, price_rub").order("id", { ascending: true }),
     supabase.from("reviews").select("id, name, stars, text, created_at").order("created_at", { ascending: false }),
   ]);
+  const randomReviews = pickRandomReviews((reviews ?? []) as Review[], 4);
 
   return (
     <div className="min-h-screen">
@@ -96,7 +120,7 @@ export default async function Home() {
           <h2 className="text-2xl">Отзывы</h2>
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
             <div className="grid gap-4 sm:grid-cols-2">
-              {(reviews ?? []).slice(0, 4).map((review) => (
+              {randomReviews.map((review) => (
                 <article key={review.id} className="panel rounded-xl p-4">
                   <div className="mb-2 flex items-center justify-between text-sm">
                     <span>{review.name}</span>
