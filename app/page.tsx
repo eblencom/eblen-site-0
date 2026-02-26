@@ -7,7 +7,7 @@ import { supabase } from "@/lib/supabaseClient";
 // Server action that handles review form submissions
 async function createReview(formData: FormData) {
   "use server"; // directive indicating this function runs on the server
-
+// NEW COMMIT
   // extract and sanitize input values
   const name = (formData.get("name") as string | null)?.trim();
   const starsValue = formData.get("stars") as string | null;
