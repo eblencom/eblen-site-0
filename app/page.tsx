@@ -46,7 +46,7 @@ export default async function Home() {
         {/* hero section with tagline and image */}
         <section id="hero" className="reveal mb-16 grid items-center gap-8 md:grid-cols-2">
           <div className="space-y-5">
-            <h1 className="text-4xl leading-tight sm:text-5xl">Свежие суши с быстрой доставкой</h1>
+            <h1 className="text-4xl leading-tight sm:text-5xl">Привет Самирка это я Буба я тебя люблю ❤️</h1>
             <p className="max-w-xl text-sm text-[var(--text-soft)] sm:text-base">Простое меню, прозрачные цены, аккуратная подача.</p>
             <div className="flex flex-wrap gap-3">
               <a href="#catalog" className="btn-primary px-5 py-2 text-sm">
