@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 // Supabase client for database access
 import { supabase } from "@/lib/supabaseClient";
 
+export const revalidate = 0;
+
 type Review = {
   id: number;
   name: string;
@@ -52,7 +54,7 @@ export default async function Home() {
   // fetch products and reviews in parallel
   const [{ data: products }, { data: reviews }] = await Promise.all([
     supabase.from("products").select("id, image_url, name, weight_grams, composition, price_rub").order("id", { ascending: true }),
-    supabase.from("reviews").select("id, name, stars, text, created_at").order("created_at", { ascending: false }),
+    supabase.from("reviews").select("id, name, stars, text, created_at"),
   ]);
   const randomReviews = pickRandomReviews((reviews ?? []) as Review[], 4);
 
